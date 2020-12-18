@@ -102,6 +102,7 @@ namespace upc {
 
   /// \TODO Compute the logprob for the whole input data.
   float GMM::logprob(const fmatrix &data) const {    
+  /// \DONE
 
     if (nmix == 0 or vector_size == 0 or vector_size != data.ncol())
       return -1e38F;
@@ -208,6 +209,7 @@ namespace upc {
 	  //
 	  // EM loop: em_expectation + em_maximization.
 	  //
+    // \DONE
       new_prob = em_expectation(data, weights);
       em_maximization(data, weights);
 

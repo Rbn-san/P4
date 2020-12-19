@@ -127,7 +127,7 @@ sox $inputfile -t raw -e signed -b 16 - | $X2X +sf | $FRAME -l 240 -p 80 | $WIND
 
   |                        | LP   | LPCC | MFCC |
   |------------------------|:----:|:----:|:----:|
-  | &rho;<sub>x</sub>[2,3] | -0.873681 | 0.184235 | -0.0812356 |
+  | &rho;<sub>x</sub>[2,3] | -0.873681 | 0.184235 | -0.11304 |
   
   + Compare los resultados de <code>pearson</code> con los obtenidos gráficamente.
   

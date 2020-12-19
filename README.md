@@ -117,10 +117,56 @@ sox $inputfile -t raw -e signed -b 16 - | $X2X +sf | $FRAME -l 240 -p 80 | $WIND
 
 - Inserte una imagen mostrando la dependencia entre los coeficientes 2 y 3 de las tres parametrizaciones
   para todas las señales de un locutor.
+
+  ![LP](/IMG/LP.PNG)
+  ![LPCC](/IMG/LPCC.PNG)
+  ![MFCC](/IMG/MFCC.PNG)
   
   + Indique **todas** las órdenes necesarias para obtener las gráficas a partir de las señales 
     parametrizadas.
+    
+    LP
+    <code>fmatrix_show work/lp/BLOCK01/SES017/.lp | egrep '^[' | cut -f4,5 > lp_2_3.txt</code>
+    LPCC
+    <code>fmatrix_show work/lpcc/BLOCK01/SES017/.lpcc | egrep '^[' | cut -f4,5 > lpcc_2_3.txt</code>
+    MFCC
+    <code>fmatrix_show work/mfcc/BLOCK01/SES017/*.mfcc | egrep '^[' | cut -f4,5 > mfcc_2_3.txt</code>
+
+    Con estos comandos copiamos los resultados de las parametrizaciones en unos archivos .txt con dos columnas, una de coeficientes 2 y la otra de coeficientes 3. Con estos archivo y mediante MATLAB graficaremos estos datos con la función scater(). Este es el código de MATLAB:
+
+    <code>LP_file = fopen('C:\Users\marcb\Downloads\lp_2_3.txt','r');
+    LPCC_file = fopen('C:\Users\marcb\Downloads\lpcc_2_3.txt','r');
+    MFCC_file = fopen('C:\Users\marcb\Downloads\mfcc_2_3.txt','r');
+
+    formatSpec = '%f %f';
+    sizeA = [2 Inf];
+    sz = 2;
+
+    LP = fscanf(LP_file,formatSpec,sizeA);
+    LPCC = fscanf(LPCC_file,formatSpec,sizeA);
+    MFCC = fscanf(MFCC_file,formatSpec,sizeA);
+
+    fclose(LP_file);
+    fclose(LPCC_file);
+    fclose(MFCC_file);
+
+    LP = LP';
+    LPCC = LPCC';
+    MFCC = MFCC';
+
+    figure
+    scatter(LP(:,1), LP(:,2), sz,'filled', 'black');
+    title('LP');
+    figure
+    scatter(LPCC(:,1), LPCC(:,2), sz,'filled', 'black');
+    title('LPCC');
+    figure
+    scatter(MFCC(:,1), MFCC(:,2), sz,'filled', 'black');
+    title('MFCC');</code>
+
   + ¿Cuál de ellas le parece que contiene más información?
+
+   La correlación indica lo mucho que se parecen los parametros, por lo tanto la información será inferior cuanto más alta sea la correlación. La parametrización MFCC es la más incorrelada y, por tanto, la que contiene más información. Después de está esta la LPCC que aporta más información que la LP pero menos que la MFCC. 
 
 - Usando el programa <code>pearson</code>, obtenga los coeficientes de correlación normalizada entre los
   parámetros 2 y 3 para un locutor, y rellene la tabla siguiente con los valores obtenidos.
@@ -131,7 +177,13 @@ sox $inputfile -t raw -e signed -b 16 - | $X2X +sf | $FRAME -l 240 -p 80 | $WIND
   
   + Compare los resultados de <code>pearson</code> con los obtenidos gráficamente.
   
+  |&rho;<sub>x</sub>| -> 1  (correlación alta)      |&rho;<sub>x</sub>| -> 0  (correlación baja)
+
+  Se puede ver que los datos coinciden con las gráficas anteriores. En el caso de LP, se aproxima a 1, por lo que están bastante correladas y aporta poca información. En los casos de LPCC y MFCC, se aproximan a 0, por lo que están más incorreladas y aportan más información, siendo MFCC la que más información aprota.
+
 - Según la teoría, ¿qué parámetros considera adecuados para el cálculo de los coeficientes LPCC y MFCC?
+
+ Según la teoría de LPCC, [Q = (3/2)*p], siendo la "p" el orden y la "Q" son los coeficientes de cepstrales. Nosostros hemos escogido p = 14 y Q = 21. En el caso de la parametrización MFCC, el orden es Q = 13 y el número de filtros es M, que está entre 24 y 40. Nosotros hemos escogido Q = 13 y M = 35.
 
 ### Entrenamiento y visualización de los GMM.
 
@@ -139,10 +191,14 @@ Complete el código necesario para entrenar modelos GMM.
 
 - Inserte una gráfica que muestre la función de densidad de probabilidad modelada por el GMM de un locutor
   para sus dos primeros coeficientes de MFCC.
+
+  ![gmm](/IMG/gmm1.PNG)
   
 - Inserte una gráfica que permita comparar los modelos y poblaciones de dos locutores distintos (la gŕafica
   de la página 20 del enunciado puede servirle de referencia del resultado deseado). Analice la capacidad
   del modelado GMM para diferenciar las señales de uno y otro.
+
+  ![GMM_SES098_013](/IMG/GMM_SES098_013.PNG)
 
 ### Reconocimiento del locutor.
 

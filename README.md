@@ -33,68 +33,68 @@ ejercicios indicados.
   principal (`sox`, `$X2X`, `$FRAME`, `$WINDOW` y `$LPC`). Explique el significado de cada una de las 
   opciones empleadas y de sus valores.
 
-El pipeline principal en el script `wav2lp.sh` es el siguiente:
-```
-sox $inputfile -t raw -e signed -b 16 - | $X2X +sf | $FRAME -l 240 -p 80 | $WINDOW -l 240 -L 240 |
-	$LPC -l 240 -m $lpc_order > $base.lp
-```
-donde $X2X, $FRAME, $LPC se sustituyen por "sptk x2x", "sptk frame" y "sptk lpc" respectivamente; 
-$inputfile y $lpc_order se sustituyen por el nombre del archivo de entrada y el orden del predictor que se 
-especifique; y $base se sustituye por el nombre correspondiente para los archivos temporales.
+  El pipeline principal en el script `wav2lp.sh` es el siguiente:
+  ```
+  sox $inputfile -t raw -e signed -b 16 - | $X2X +sf | $FRAME -l 240 -p 80 | $WINDOW -l 240 -L 240 |
+    $LPC -l 240 -m $lpc_order > $base.lp
+  ```
+  donde $X2X, $FRAME, $LPC se sustituyen por "sptk x2x", "sptk frame" y "sptk lpc" respectivamente; 
+  $inputfile y $lpc_order se sustituyen por el nombre del archivo de entrada y el orden del predictor que se 
+  especifique; y $base se sustituye por el nombre correspondiente para los archivos temporales.
 
-Los comandos involucrados realizan las siguientes funciones:
+  Los comandos involucrados realizan las siguientes funciones:
 
-* sox: Programa capaz de leer, escribir y manipular archivos de audio en la mayoría de los formatos usuales. 
-Las opciones que se han empleado son:
-`-t raw` que indica el tipo de archivo de audio. Lo añadimos para informar al programa sox que se trata de un 
-arxivo de audio sin cabecera.
-`-e` que indica el tipo de codificación de audio. Usamos `signed` para pasarlo a real. 
-`-b 16` para indicar que queresmos que sea de 16 bits.
+  * sox: Programa capaz de leer, escribir y manipular archivos de audio en la mayoría de los formatos usuales. 
+  Las opciones que se han empleado son:
+  `-t raw` que indica el tipo de archivo de audio. Lo añadimos para informar al programa sox que se trata de un 
+  arxivo de audio sin cabecera.
+  `-e` que indica el tipo de codificación de audio. Usamos `signed` para pasarlo a real. 
+  `-b 16` para indicar que queresmos que sea de 16 bits.
 
-Programas de SPTK:
+  Programas de SPTK:
 
-* x2x: Convierte los datos de una entrada estándar (generalmente el teclado) a otro tipo y los saca por la salida 
-estándar (generalmente por pantalla). 
-La opción empleada es la de `+sf` formada por "+", el tipo de datos de entrada (s: short) y el tipo de datos de 
-salida (f: float).
+  * x2x: Convierte los datos de una entrada estándar (generalmente el teclado) a otro tipo y los saca por la salida 
+  estándar (generalmente por pantalla). 
+  La opción empleada es la de `+sf` formada por "+", el tipo de datos de entrada (s: short) y el tipo de datos de 
+  salida (f: float).
 
-* frame: Convierte una secuencia de datos de entrada en una serie de tramas posiblemente solapadas de periodo 
-longitud l y periodo p, y lo saca por la salida estándar. En este caso, se están creando tramas de 240 muestras 
-de longitud (30 ms) y 80 muestras de periodo (10 ms) (desplazamiento de ventana) utilizando las opciones `-l 240 -p 80`
-(En esta práctica la frecuencia de mostreo es de 8 kHz). 
+  * frame: Convierte una secuencia de datos de entrada en una serie de tramas posiblemente solapadas de periodo 
+  longitud l y periodo p, y lo saca por la salida estándar. En este caso, se están creando tramas de 240 muestras 
+  de longitud (30 ms) y 80 muestras de periodo (10 ms) (desplazamiento de ventana) utilizando las opciones `-l 240 -p 80`
+  (En esta práctica la frecuencia de mostreo es de 8 kHz). 
 
-* window: Multiplica elemento a elemento los vectores de un archivo de entrada (o la entrada estándar) por una 
-función de ventana específica, enviando el resultado a la salida estándar. En este caso se usan las opciones 
-`-l 240 -L 240` indicando la longitud de las tramas de entrada y salida respectivamente. Al no indicar la ventana 
-con la opción `-w`, se utiliza la definida por defecto, que es la ventana de Blackman.     
+  * window: Multiplica elemento a elemento los vectores de un archivo de entrada (o la entrada estándar) por una 
+  función de ventana específica, enviando el resultado a la salida estándar. En este caso se usan las opciones 
+  `-l 240 -L 240` indicando la longitud de las tramas de entrada y salida respectivamente. Al no indicar la ventana 
+  con la opción `-w`, se utiliza la definida por defecto, que es la ventana de Blackman.     
 
-* lpc: Calcula los coeficientes de predicción lineal. Para ello, se le indica la longitud de la ventana de 
-datos con la opción `-l 240` (en esta caso 240 muestras) y `-m` para indicar el orden del predictor.     
+  * lpc: Calcula los coeficientes de predicción lineal. Para ello, se le indica la longitud de la ventana de 
+  datos con la opción `-l 240` (en esta caso 240 muestras) y `-m` para indicar el orden del predictor.     
 
 
 - Explique el procedimiento seguido para obtener un fichero de formato *fmatrix* a partir de los ficheros de
   salida de SPTK (líneas 45 a 47 del script `wav2lp.sh`).
 
-Las líneas a analizar son las siguientes:
-```
-# Our array files need a header with the number of cols and rows:
-ncol=$((lpc_order+1)) # lpc p =>  (gain a1 a2 ... ap) 
-nrow=`$X2X +fa < $base.lp | wc -l | perl -ne 'print $_/'$ncol', "\n";'`
-```
+  Las líneas a analizar son las siguientes:
+  ```
+  # Our array files need a header with the number of cols and rows:
+  ncol=$((lpc_order+1)) # lpc p =>  (gain a1 a2 ... ap) 
+  nrow=`$X2X +fa < $base.lp | wc -l | perl -ne 'print $_/'$ncol', "\n";'`
+  ```
 
-Para obtener un fichero de formato *fmatrix*, queremos almacenar los datos en nrow filas de ncol columnas, en los que cada fila corresponda a una trama de señal, y cada columna a cada uno de los coeficientes con los que se parametriza la trama. Por tanto, este fichero debe indicar el número de filas y columnas al principio del fichero. Posteriormente se escribirán los datos como reales de 4 bytes (formato float de C). 
+  Para obtener un fichero de formato *fmatrix*, queremos almacenar los datos en nrow filas de ncol columnas, en los que cada fila corresponda a una trama de señal, y cada columna a cada uno de los coeficientes con los que se parametriza la trama. Por tanto, este fichero debe indicar el número de filas y columnas al principio del fichero. Posteriormente se escribirán los datos como reales de 4 bytes (formato float de C). 
 
-El número de columnas se calcula a partir del orden del predictor (orden del predictor + 1):
-```
-ncol=$((lpc_order+1)) # lpc p =>  (gain a1 a2 ... ap) 
-```
+  El número de columnas se calcula a partir del orden del predictor (orden del predictor + 1):
+  ```
+  ncol=$((lpc_order+1)) # lpc p =>  (gain a1 a2 ... ap) 
+  ```
 
-El número de filas se obtiene de la siguiente forma: Primero, se convierte la señal parametrizada del propio fichero obtenido a texto, usando el conversor de SPTK x2x con la opción +fa (de float a ASCII). Luego se utiliza el comando de UNIX wc (word count) con la opción -l para contar las filas. Finalmente, el comando perl es el intérprete para el lenguaje de programación Perl. La *e* se usa para introducir una línea de código y la *n* para que repita la acción en bucle. Por tanto, `perl -ne 'print $_/'$ncol', "\n";'` introduce repetidamente dicha línea de código. Esto se hace porque wc -l no cuenta la última línea si no contiene `\n`.   
+  El número de filas se obtiene de la siguiente forma: Primero, se convierte la señal parametrizada del propio fichero obtenido a texto, usando el conversor de SPTK x2x con la opción +fa (de float a ASCII). Luego se utiliza el comando de UNIX wc (word count) con la opción -l para contar las filas. Finalmente, el comando perl es el intérprete para el lenguaje de programación Perl. La *e* se usa para introducir una línea de código y la *n* para que repita la acción en bucle. Por tanto, `perl -ne 'print $_/'$ncol', "\n";'` introduce repetidamente dicha línea de código. Esto se hace porque wc -l no cuenta la última línea si no contiene `\n`.   
 
   * ¿Por qué es conveniente usar este formato (u otro parecido)? Tenga en cuenta cuál es el formato de
     entrada y cuál es el de resultado.
 
-Es conveniente usar este formato para poder usar los programas fmatrix_show y fmatrix_cut que nos permiten mostrar el contenido de estos ficheros o seleccionar columnas concretas de los mismos, además de que permite almacenar los datos como reales de 4 bytes (float) en vez de formato texto (ASCII).  
+  Es conveniente usar este formato para poder usar los programas fmatrix_show y fmatrix_cut que nos permiten mostrar el contenido de estos ficheros o seleccionar columnas concretas de los mismos, además de que permite almacenar los datos como reales de 4 bytes (float) en vez de formato texto (ASCII).  
 
 
 - Escriba el *pipeline* principal usado para calcular los coeficientes cepstrales de predicción lineal
@@ -126,15 +126,22 @@ sox $inputfile -t raw -e signed -b 16 - | $X2X +sf | $FRAME -l 240 -p 80 | $WIND
     parametrizadas.
     
     LP
-    <code>fmatrix_show work/lp/BLOCK01/SES017/.lp | egrep '^[' | cut -f4,5 > lp_2_3.txt</code>
+    ```
+    fmatrix_show work/lp/BLOCK01/SES017/.lp | egrep '^[' | cut -f4,5 > lp_2_3.txt
+    ```
     LPCC
-    <code>fmatrix_show work/lpcc/BLOCK01/SES017/.lpcc | egrep '^[' | cut -f4,5 > lpcc_2_3.txt</code>
+    ```
+    fmatrix_show work/lpcc/BLOCK01/SES017/.lpcc | egrep '^[' | cut -f4,5 > lpcc_2_3.txt
+    ```
     MFCC
-    <code>fmatrix_show work/mfcc/BLOCK01/SES017/*.mfcc | egrep '^[' | cut -f4,5 > mfcc_2_3.txt</code>
+    ```
+    fmatrix_show work/mfcc/BLOCK01/SES017/*.mfcc | egrep '^[' | cut -f4,5 > mfcc_2_3.txt
+    ```
 
     Con estos comandos copiamos los resultados de las parametrizaciones en unos archivos .txt con dos columnas, una de coeficientes 2 y la otra de coeficientes 3. Con estos archivo y mediante MATLAB graficaremos estos datos con la función scater(). Este es el código de MATLAB:
 
-    <code>LP_file = fopen('C:\Users\marcb\Downloads\lp_2_3.txt','r');
+    ```
+    LP_file = fopen('C:\Users\marcb\Downloads\lp_2_3.txt','r');
     LPCC_file = fopen('C:\Users\marcb\Downloads\lpcc_2_3.txt','r');
     MFCC_file = fopen('C:\Users\marcb\Downloads\mfcc_2_3.txt','r');
 
@@ -162,7 +169,8 @@ sox $inputfile -t raw -e signed -b 16 - | $X2X +sf | $FRAME -l 240 -p 80 | $WIND
     title('LPCC');
     figure
     scatter(MFCC(:,1), MFCC(:,2), sz,'filled', 'black');
-    title('MFCC');</code>
+    title('MFCC');
+    ```
 
   + ¿Cuál de ellas le parece que contiene más información?
 
@@ -199,6 +207,8 @@ Complete el código necesario para entrenar modelos GMM.
   del modelado GMM para diferenciar las señales de uno y otro.
 
   ![GMM_SES098_013](/IMG/GMM_SES098_013.PNG)
+
+  Tenemos las regiones del 50% y 90% de la masa de probabilidad de GMM. El color rojo corresponde al locutor SES098 y el azul al SES013. En estas cuatro imagenes se muestran los dos locutores con el GMM correspondiente y intercambiado. Cueando está intercambiado, es decir, la población y el locutor no coinciden, las regiones no encajan con la poblacion. Cuando el locutor y la población coinciden, las regiones encajan perfectamente.
 
 ### Reconocimiento del locutor.
 

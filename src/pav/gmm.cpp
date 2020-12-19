@@ -204,12 +204,12 @@ namespace upc {
     
     fmatrix weights(data.nrow(), nmix);
     for (iteration=0; iteration<max_it; ++iteration) {
-      /// \TODO
-	  // Complete the loop in order to perform EM, and implement the stopping criterion.
-	  //
-	  // EM loop: em_expectation + em_maximization.
-	  //
-    // \DONE
+    /// \TODO
+	  /// Complete the loop in order to perform EM, and implement the stopping criterion.
+	  ///
+	  /// EM loop: em_expectation + em_maximization.
+	  ///
+    /// \DONE
       new_prob = em_expectation(data, weights);
       em_maximization(data, weights);
 

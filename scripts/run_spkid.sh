@@ -12,6 +12,7 @@
 # - w:        a working directory for temporary files
 # - name_exp: name of the experiment
 # - db:       directory of the speecon database 
+# \DONE
 lists=lists
 w=work
 name_exp=one
@@ -86,6 +87,7 @@ fi
 # \TODO
 # Create your own features with the name compute_$FEAT(), where  $FEAT the name of the feature.
 # - Select (or change) different features, options, etc. Make you best choice and try several options.
+# \DONE alguns valors poden anar canviant amb l'objectiu d'optimitzar el programa
 
 compute_lp() {
     db=$1
@@ -143,6 +145,7 @@ for cmd in $*; do
        ## @file
 	   # \TODO
 	   # Select (or change) good parameters for gmm_train
+       # \DONE el valor de -m és el número de Gaussianes a utilitzar que s'haurà d'optimitzar
        for dir in $db/BLOCK*/SES* ; do
            name=${dir/*\/}
            echo $name ----

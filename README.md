@@ -185,13 +185,14 @@ sox $inputfile -t raw -e signed -b 16 - | $X2X +sf | $FRAME -l 240 -p 80 | $WIND
   
   + Compare los resultados de <code>pearson</code> con los obtenidos gráficamente.
   
-  |&rho;<sub>x</sub>| -> 1  (correlación alta)      |&rho;<sub>x</sub>| -> 0  (correlación baja)
+  |&rho;<sub>x</sub>| -> 1  (correlación alta)      
+  |&rho;<sub>x</sub>| -> 0  (correlación baja)
 
   Se puede ver que los datos coinciden con las gráficas anteriores. En el caso de LP, se aproxima a 1, por lo que están bastante correladas y aporta poca información. En los casos de LPCC y MFCC, se aproximan a 0, por lo que están más incorreladas y aportan más información, siendo MFCC la que más información aprota.
 
 - Según la teoría, ¿qué parámetros considera adecuados para el cálculo de los coeficientes LPCC y MFCC?
 
- Según la teoría de LPCC, [Q = (3/2)*p], siendo la "p" el orden y la "Q" son los coeficientes de cepstrales. Nosostros hemos escogido p = 14 y Q = 21. En el caso de la parametrización MFCC, el orden es Q = 13 y el número de filtros es M, que está entre 24 y 40. Nosotros hemos escogido Q = 13 y M = 35.
+  Según la teoría de LPCC, [Q = (3/2)*p], siendo la "p" el orden y la "Q" son los coeficientes de cepstrales. Nosostros hemos escogido p = 14 y Q = 21. En el caso de la parametrización MFCC, el orden es Q = 13 y el número de filtros es M, que está entre 24 y 40. Nosotros hemos escogido Q = 13 y M = 35.
 
 ### Entrenamiento y visualización de los GMM.
 

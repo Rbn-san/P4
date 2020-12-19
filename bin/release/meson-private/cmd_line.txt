@@ -2,7 +2,6 @@
 prefix = /home/ruben/PAV
 libdir = lib
 buildtype = release
-backend = ninja
 
 [properties]
 

@@ -144,6 +144,10 @@ build scripts/wav2mfcc: CUSTOM_COMMAND /home/ruben/PAV/P4/scripts/wav2mfcc.sh
  COMMAND = ln -sf /home/ruben/PAV/P4/scripts/wav2mfcc.sh /home/ruben/PAV/bin/wav2mfcc
  description = Generating$ wav2mfcc.sh$ with$ a$ custom$ command.
 
+build scripts/graf_2_3_coef: CUSTOM_COMMAND /home/ruben/PAV/P4/scripts/graf_2_3_coef.py
+ COMMAND = ln -sf /home/ruben/PAV/P4/scripts/graf_2_3_coef.py /home/ruben/PAV/bin/graf_2_3_coef
+ description = Generating$ graf_2_3_coef.py$ with$ a$ custom$ command.
+
 build doc: phony meson-doc
 
 build meson-doc: CUSTOM_COMMAND 
@@ -207,7 +211,7 @@ build meson-uninstall: CUSTOM_COMMAND PHONY
 
 build uninstall: phony meson-uninstall
 
-build all: phony src/pav/libpav.a src/gmm_classify src/gmm_show src/gmm_train src/gmm_verify src/pearson src/fmatrix_cut src/fmatrix_show scripts/run_spkid scripts/plot_gmm_feat scripts/spk_verif_score scripts/wav2lp scripts/wav2lpcc scripts/wav2mfcc pav_spkid_pytorch/make_spk2idx pav_spkid_pytorch/test_nn pav_spkid_pytorch/train_nn pav_spkid_pytorch/utils
+build all: phony src/pav/libpav.a src/gmm_classify src/gmm_show src/gmm_train src/gmm_verify src/pearson src/fmatrix_cut src/fmatrix_show scripts/run_spkid scripts/plot_gmm_feat scripts/spk_verif_score scripts/wav2lp scripts/wav2lpcc scripts/wav2mfcc scripts/graf_2_3_coef pav_spkid_pytorch/make_spk2idx pav_spkid_pytorch/test_nn pav_spkid_pytorch/train_nn pav_spkid_pytorch/utils
 
 build clean: phony meson-clean
 

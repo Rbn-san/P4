@@ -7,6 +7,7 @@ scripts = [
     'wav2lp.sh',
     'wav2lpcc.sh',
     'wav2mfcc.sh',
+    'graf_2_3_coef.py',
 ]
 
 foreach script: scripts

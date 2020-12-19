@@ -164,9 +164,12 @@ Complete el código necesario para realizar verificación del locutor y optimice
   pérdidas, y el score obtenido usando la parametrización que mejor resultado le hubiera dado en la tarea
   de reconocimiento.
  
-  |                        | algo1 | algo2 | algo3 |
-  |------------------------|:----:|:----:|:----:|
-  |     otra plantill      |      |      |      |
+  |                 | LP | LPCC | MFCC |
+  |-----------------|:----:|:----:|:----:|
+  | THR             | 1.548618 | 0.679109 | 0.830055 |
+  | Missed          | 225/250 = 0.9 | 61/250 = 0.2440 | 71/250 = 0.2840 |
+  | False Alarm     | 0/1000 = 0 | 1/1000 = 0.0010 | 0/1000 = 0|
+  | Cost Detection  | 90.0 | 34.3 | 28.4 |
 
 ### Test final
 

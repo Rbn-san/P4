@@ -1,4 +1,4 @@
-Build started at 2020-12-19T17:06:33.178041
+Build started at 2020-12-19T20:33:48.843242
 Main binary: /usr/bin/python3
 Build Options: -Dprefix=/home/ruben/PAV -Dlibdir=lib -Dbuildtype=release
 Python system: Linux
@@ -47,12 +47,12 @@ Target machine cpu family: x86_64
 Target machine cpu: x86_64
 Program doxygen found: YES (/usr/bin/doxygen)
 Configuring Doxyfile using configuration
-Build targets in project: 20
+Build targets in project: 19
 
 Found ninja-1.10.0 at /usr/bin/ninja
 Running compile:
-Working directory:  /tmp/tmp7febof_8
-Command line:  c++ /tmp/tmp7febof_8/testfile.cpp -o /tmp/tmp7febof_8/output.obj -pipe -D_FILE_OFFSET_BITS=64 -c -std=c++11 
+Working directory:  /tmp/tmphoi5_hwo
+Command line:  c++ /tmp/tmphoi5_hwo/testfile.cpp -o /tmp/tmphoi5_hwo/output.obj -pipe -D_FILE_OFFSET_BITS=64 -c -std=c++11 
 
 Code:
  int i = static_cast<int>(0);
@@ -62,8 +62,8 @@ Compiler stderr:
  
 Compiler accepts -std=c++11: YES
 Running compile:
-Working directory:  /home/ruben/PAV/P4/bin/release/meson-private/tmpou8f0o8f
-Command line:  c++ /home/ruben/PAV/P4/bin/release/meson-private/tmpou8f0o8f/testfile.cpp -o /home/ruben/PAV/P4/bin/release/meson-private/tmpou8f0o8f/output.obj -pipe -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive --print-search-dirs 
+Working directory:  /home/ruben/PAV/P4/bin/release/meson-private/tmp4y2le8gm
+Command line:  c++ /home/ruben/PAV/P4/bin/release/meson-private/tmp4y2le8gm/testfile.cpp -o /home/ruben/PAV/P4/bin/release/meson-private/tmp4y2le8gm/output.obj -pipe -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive --print-search-dirs 
 
 Code:
  

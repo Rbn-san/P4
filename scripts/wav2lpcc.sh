@@ -2,8 +2,8 @@
 
 ## \file
 ## \TODO This file implements a very trivial feature extraction; use it as a template for other front ends.
-## \DONE template used to implement LPCC
 ## Please, read SPTK documentation and some papers in order to implement more advanced front ends.
+## \DONE template used to implement LPCC
 
 # Base name for temporary files
 base=/tmp/$(basename $0).$$ 

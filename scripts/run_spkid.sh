@@ -39,7 +39,7 @@ if [[ $# < 1 ]]; then
    echo "  classerr: count errors in speaker recognition"
    echo "trainworld: estimate world model for speaker verification"
    echo "    verify: test gmm in verification task"
-   echo " verify_err: count errors of verify"
+   echo " verif_err: count errors of verify"
    echo "finalclass: reserved for final test in the classification task"
    echo "finalverif: reserved for final test in the verification task"
    echo ""
@@ -87,7 +87,7 @@ fi
 # \TODO
 # Create your own features with the name compute_$FEAT(), where  $FEAT the name of the feature.
 # - Select (or change) different features, options, etc. Make you best choice and try several options.
-# \DONE alguns valors poden anar canviant amb l'objectiu d'optimitzar el programa
+# \DONE 
 
 compute_lp() {
     db=$1
@@ -145,7 +145,7 @@ for cmd in $*; do
        ## @file
 	   # \TODO
 	   # Select (or change) good parameters for gmm_train
-       # \DONE el valor de -m és el número de Gaussianes a utilitzar que s'haurà d'optimitzar
+       # \DONE s'ha utilitzat la inicialització amb EM_split, 20 iteracions i 40 Gaussianes
        for dir in $db/BLOCK*/SES* ; do
            name=${dir/*\/}
            echo $name ----
@@ -173,7 +173,7 @@ for cmd in $*; do
 	   #
 	   # - The name of the world model will be used by gmm_verify in the 'verify' command below.
        #  \DONE
-       gmm_train  -v 1 -T 0.001 -N5 -m 2 -d $w/$FEAT -e $FEAT -g $w/gmm/$FEAT/$world.gmm $lists/verif/$world.train || exit 1
+       gmm_train -i 2 -v 1 -T 0.001 -N 20 -m 40 -d $w/$FEAT -e $FEAT -g $w/gmm/$FEAT/$world.gmm $lists/verif/$world.train || exit 1
    elif [[ $cmd == verify ]]; then
        ## @file
 	   # \TODO 
